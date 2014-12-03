@@ -1,0 +1,6 @@
+/etc/locale.conf
+/etc/#locale.conf#
+/etc/locale.gen
+/etc/#locale.gen#
+/home/keita/.emacs.d/slime/HyperSpec/Data/Map_Sym.txt
+/home/keita/.emacs.d/slime/HyperSpec/Data/#Map_Sym.txt#

@@ -1,0 +1,234 @@
+
+(show-paren-mode t)
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq auto-mode-alist (cons '("\.lua$" . lua-mode) auto-mode-alist))
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+
+(defun reopen-with-sudo ()
+  "Reopen current buffer-file with sudo using tramp."
+  (interactive)
+  (let ((file-name (buffer-file-name)))
+    (if file-name
+        (find-alternate-file (concat "/sudo::" file-name))
+      (error "Cannot get a file name"))))
+
+;;utf-8でcoding
+(prefer-coding-system 'utf-8)
+(setq coding-system-for-read 'utf-8)
+(setq coding-system-for-write 'utf-8)
+
+;;ツールバー非表示
+(tool-bar-mode -1)
+;;メニューバーを非表示
+(menu-bar-mode -1)
+;;英語フォントの設定
+(set-face-attribute 'default nil
+		    ;:family "dejavu sans mono" ;; font
+		    ;;:family "Liberation Mono" ;; font
+		    :family "monospace" ;; font
+		    :height 100)    ;; font size
+;;日本語フォントの設定
+;(set-fontset-font
+; nil 'japanese-jisx0208
+; (font-spec :family "Hiragino Mincho Pro"))
+
+(set-background-color "#c89898") ;; background color
+(set-foreground-color "black")   ;; font color
+
+;;背景黒
+(custom-set-faces
+ '(default ((t (:background "#000020" :foreground "#EEEEDD"))))
+ '(cursor (
+           (((class color) (background dark )) (:background "#20A020"))
+           (((class color) (background light)) (:background "#999999"))
+           (t ())
+           )))
+(add-to-list 'default-frame-alist '(alpha . (1.0 1.0)))
+
+(add-hook 'dired-load-hook
+  '(lambda ()
+     ;; ディレクトリを再帰的にコピー可能にする
+    (setq dired-recursive-copies 'always)
+    ;; ディレクトリを再帰的に削除可能にする(使用する場合は注意)
+    ;(setq dired-recursive-deletes 'always)
+    ;; lsのオプション 「l」(小文字のエル)は必須
+    ;(setq dired-listing-switches "-Flha") ; 「.」と「..」が必要な場合
+    (setq dired-listing-switches "-GFlhA") ; グループ表示が不要な場合
+    ;(setq dired-listing-switches "-FlhA")
+    ;; find-dired/find-grep-diredで、条件に合ったファイルをリストする形式
+    (setq find-ls-option '("-print0 | xargs -0 ls -Flhatd"))
+    ;; 無効コマンドdired-find-alternate-fileを有効にする
+  )
+)
+;; ファイル・ディレクトリ名のリストを編集することで、まとめてリネーム可能にする
+(require 'wdired)
+;; wdiredモードに入るキー(下の例では「r」)
+(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+;; 新規バッファを作らずにディレクトリを開く(デフォルトは「a」)
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+;; 「a」を押したときに新規バッファを作って開くようにする
+(define-key dired-mode-map "a" 'dired-advertised-find-file)
+;; 「^」がを押しにくい場合「c」でも上の階層に移動できるようにする
+(define-key dired-mode-map "c" 'dired-up-directory)
+
+
+(add-to-list 'load-path "~/.emacs.d/elisp")
+
+(require 'info)
+
+(add-to-list 'load-path
+       	     "~/.emacs.d/elisp/w3m/share/emacs/site-lisp/w3m")
+(add-to-list 'Info-additional-directory-list
+	     "~/.emacs.d/elisp/w3m/share/info")
+(require 'w3m-load)
+
+(setq w3m-use-cookies t) 		 ;ログイン可能にする
+(setq w3m-favicon-cache-expire-wait nil) ;favicon のキャッシュを消さない
+
+(require 'w3m)
+(setq browse-url-browser-function 'w3m-browse-url)
+
+;; slime lists
+(setq slime-lisp-implementations `((sbcl ("sbcl"))
+				   (clisp ("clisp"))))
+;; ~/.emacs.d/slimeをload-pathに追加
+(add-to-list 'load-path 
+	     (expand-file-name "~/.emacs.d/slime/slime"))
+
+
+(setq common-lisp-hyperspec-root
+      (concat "file://" (expand-file-name "~/.emacs.d/slime/HyperSpec/"))
+      common-lisp-hyperspec-symbol-table
+      (expand-file-name "~/.emacs.d/slime/HyperSpec/Data/Map_Sym.txt"))
+;(require 'hyperspec)
+
+(require 'slime)
+(setq slime-net-coding-system 'utf-8-unix) ;; 日本語利用のための設定(Lisp 環境側の対応も必要)
+(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+(add-hook 'lisp-mode-hook (lambda () 
+			    (show-paren-mode t)
+			    (slime-mode t)
+			    (global-set-key "\C-cH" 'hyperspec-lookup)))
+;; SLIMEのロード
+(require 'slime)
+(slime-setup '(slime-repl slime-fancy slime-banner))
+
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp//ac-dict")
+(ac-config-default)
+
+(require 'ac-slime)
+(add-hook 'slime-mode-hook 'set-up-slime-ac)
+(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+(slime-setup '(slime-repl))
+(setq slime-net-coding-system 'utf-8-unix)
+(add-to-list 'ac-modes 'slime-repl-mode)
+(add-to-list 'ac-modes 'slime-mode)
+(add-to-list 'ac-modes 'lisp-mode)
+
+
+
+;; expand region
+(add-to-list 'load-path "~/.emacs.d/expand-region.el")
+(require 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)
+(global-set-key (kbd "C-M-@") 'er/contract-region) ;; リージョンを狭める
+
+;; transient-mark-modeが nilでは動作しませんので注意
+(transient-mark-mode t)
+
+:::scheme環境
+ (setq scheme-program-name "gosh -i")
+(autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
+(autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
+
+;; auto-install
+;; (install-elisp "http://www.emacswiki.org/emacs/download/auto-install.el)
+(require 'install-elisp)
+(setq install-elisp-repository-directory "~/.emacs.d/elisp")
+(when (require 'auto-install nil t)
+  (setq auto-install-directory "~/.emacs.d/elisp/")
+;  (auto-install-update-emacswiki-package-name t)
+  (auto-install-compatibility-setup))
+
+(add-to-list 'load-path "~/.emacs.d/multiple-cursors.el/")
+
+(require 'smartrep)
+(require 'multiple-cursors)
+
+(global-set-key (kbd "<C-M-return>") 'mc/edit-lines)
+(smartrep-define-key
+ global-map "C-." '(("C-n" . 'mc/mark-next-like-this)
+                    ("C-p" . 'mc/mark-previous-like-this)
+                    ("*"   . 'mc/mark-all-like-this)))
+
+:::日本語環境
+(set-locale-environment nil)
+(set-language-environment "Japanese")
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(prefer-coding-system 'utf-8)
+(require 'mozc)
+(set-language-environment "Japanese")
+(setq default-input-method "japanese-mozc")
+(setq mozc-candidate-style 'overlay)
+
+(defun my-fullscreen ()
+  (interactive)
+  (let ((fullscreen (frame-parameter (selected-frame) 'fullscreen)))
+    (cond
+     ((null fullscreen)
+      (set-frame-parameter (selected-frame) 'fullscreen 'fullboth))
+     (t
+      (set-frame-parameter (selected-frame) 'fullscreen 'nil))))
+  (redisplay))
+
+(global-set-key [f11] 'my-fullscreen)
+
+(defun other-window-or-split ()
+  (interactive)
+  (when (one-window-p)
+    (split-window-horizontally))
+  (other-window 1))
+
+(global-set-key (kbd "C-;") 'other-window-or-split)
+(require 'grep-edit)
+
+;(require 'auto-highlight-symbol)
+;(global-auto-highlight-symbol-mode t)
+
+;(add-to-list 'load-path "~/.emacs.d/elisp/magit/")
+;(require 'magit)
+
+(add-to-list 'load-path "~/.emacs.d/elisp/lisp/")
+(require 'ess-mode)
+
+(add-to-list 'load-path "~/.emacs.d/elisp/haskell-mode/")
+(require 'haskell-mode)
+
+;;ocaml-mode
+(add-to-list 'load-path "~/.emacs.d/elisp/tuareg/")
+(require 'tuareg)
+;; Indent `=' like a standard keyword.
+(setq tuareg-lazy-= t)
+;; Indent [({ like standard keywords.
+(setq tuareg-lazy-paren t)
+;; No indentation after `in' keywords.
+(setq tuareg-in-indent 0)
+
+(add-hook 'tuareg-mode-hook
+          ;; Turn on auto-fill minor mode.
+          (lambda () (auto-fill-mode 1)))
+(put 'dired-find-alternate-file 'disabled nil)
+
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+(add-to-list 'load-path "~/.emacs.d/elpa/d-mode-20141017.2243")
+(require 'd-mode)

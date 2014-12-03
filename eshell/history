@@ -1,0 +1,128 @@
+ocamllex lexer.mll
+ocaml
+cd Documents/haskell/
+cd
+cd workspace/
+ls
+cd compiler/
+ls
+cd ~/Downloads/
+ls
+ocamllex lexer.mll
+ocaml
+ghci
+cd
+cd Downloads/
+ls
+ocamllex lexer.mll
+ocaml
+cd ../..
+ls
+cd c++
+g++ aoj0515.cpp 
+g++ aoj0515.cpp 
+g++ aoj0515.cpp 
+g++ aoj0515.cpp 
+./a.out > hoge
+less hoge
+cat hoge | ./a.out
+g++ aoj0515.cpp 
+cat hoge | ./a.out
+cat hoge | ./a.out
+cat hoge | ./a.out
+cat hoge | ./a.out
+cat hoge | ./a.out
+g++ aoj0515.cpp 
+cat hoge | ./a.out
+cat hoge | ./a.out
+cat hoge | ./a.out
+g++ aoj0515.cpp 
+cat hoge | ./a.out
+g++ aoj0515.cpp 
+cat hoge | ./a.out
+g++ -Wall aoj0515.cpp
+vim
+exit
+maxima
+maxima
+gcc aoj0168.cpp
+./a.out
+gcc aoj1105.cpp
+gcc aoj1105.cpp
+./a.out
+gcc aoj1105.cpp
+./a.out
+gcc aoj0042.cpp
+gcc aoj0042.cpp
+gcc aoj0042.cpp
+maxima
+git clone https://github.com/technomancy/package.el.git
+ls
+cd ~/Documents/dlang/
+dmd aoj0012.d 
+./aoj0012 
+dmd aoj0012.d 
+dmd aoj0012.d 
+dmd aoj0012.d 
+./aoj0012 
+dmd aoj0012.d 
+./aoj0012 
+./aoj0012 
+dmd aoj0012.d 
+./aoj0012 
+dmd aoj0012.d 
+./aoj0012 
+dmd aoj0012.d 
+./aoj0012 
+dmd aoj0012.d 
+dmd aoj0012.d 
+dmd aoj0012.d 
+./aoj0012 
+dmd aoj0012.d 
+dmd aoj0012.d 
+dmd aoj0012.d 
+dmd aoj0012.d 
+dmd aoj0012.d 
+dmd aoj0012.d 
+dmd aoj0012.d 
+dmd aoj0012.d --unittest
+dmd aoj0012.d -unittest
+rdmd aoj0012.d --unittest
+rdmd aoj0012.d -unittest
+rdmd -unittest aoj0012.d
+dmd aoj0012.d -unittest
+dmd -unittest aoj0012.d
+man dmd
+dmd aoj0012.d 
+./aoj0012 
+dmd aoj0012.d 
+./aoj0012 
+python
+cd Downloads/
+python3
+maxima
+cd ../dlang/
+dmd aoj0012.d
+dmd aoj0012.d
+dmd aoj0012.d
+./a.out
+./aoj0012 
+dmd aoj0012.d
+./aoj0012 
+dmd aoj0012.d 
+./aoj0012 
+cd ../c++
+g++ memory.cpp 
+cd ../dlang/
+dmd memory.d 
+ls
+cd ../c++
+g++ memory.cpp 
+./a.out
+./a.out
+g++ memory.cpp 
+./a.out
+g++ memory.cpp 
+./a.out
+./a.out
+python
